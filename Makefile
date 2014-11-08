@@ -2,7 +2,7 @@ CXXFLAGS = -g -o0 -Wall -Werror -Wpedantic -fno-exceptions -std=c++11
 LDFLAGS = -lsqlite3
 PROJ = heropool
 
-OBJS = HeroesByAlilas.o
+OBJS = Main.o HeroesByAlilas.o
 
 HEADERS = HeroData.h
 
