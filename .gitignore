@@ -26,3 +26,10 @@
 *.exe
 *.out
 *.app
+
+# Editor and temporary files
+*.swp
+
+# Project-specific files
+HeroesByAlias.cc
+heropool
