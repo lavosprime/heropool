@@ -13,7 +13,7 @@
 #include <string>
 
 int main(void) {
-  std::string testAlias = "techies"
+  std::string testAlias = "techies";
   if (HeroExistsForAlias(testAlias)) {
     std::cout << GetHeroByAlias(testAlias) << std::endl;
   }
