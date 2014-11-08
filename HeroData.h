@@ -7,13 +7,22 @@
 
 *******************************************************************************/
 
-#ifndef _HEROPOOL_HERODATA_H_
-#define _HEROPOOL_HERODATA_H_
+#ifndef HEROPOOL_HERODATA_H_
+#define HEROPOOL_HERODATA_H_
 
 #include <string>
 
+/**
+ * Returns true if the given alias or nickname is known to actually refer to a
+ * hero; returns false otherwise.
+ */
 const bool HeroExistsForAlias(const std::string& alias);
 
+/**
+ * Returns the canonical name of the hero matching the given alias or nickname.
+ * Requires that the alias does actually refer to a hero; you must check that
+ * HeroExistsForAlias returns true before calling GetHeroByAlias.
+ */
 const std::string& GetHeroByAlias(const std::string& alias);
 
-#endif  // _HEROPOOL_HERODATA_H_
+#endif  // HEROPOOL_HERODATA_H_
