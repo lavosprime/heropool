@@ -13,7 +13,7 @@ def main():
 #include <map>
 #include <string>
 
-static const std::map<std::string, std::string> heroesByAlias = {""");
+static std::map<std::string, std::string> heroesByAlias {""");
     for heroname in aliases:
         print('  {"' + heroname + '", "' + heroname + '"},')
         for alias in aliases[heroname]:
@@ -26,7 +26,7 @@ const bool HeroExistsForAlias(const std::string& alias) {
 }
 
 const std::string& GetHeroByAlias(const std::string& alias) {
-  assert(HeroExistsForAlias(alias);
+  assert(HeroExistsForAlias(alias));
   return heroesByAlias[alias];
 }""");
 

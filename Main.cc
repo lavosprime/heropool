@@ -17,4 +17,5 @@ int main(void) {
   if (HeroExistsForAlias(testAlias)) {
     std::cout << GetHeroByAlias(testAlias) << std::endl;
   }
+  return 0;
 }
