@@ -10,11 +10,24 @@ Dota is a trademark of Valve Corporation. This non-commercial project is not aff
 Usage
 =====
 
+Getting the program
+-------------------
+
+Install the `libsqlite3-dev` package or the equivalent for your operating system. Ensure you also have `git`, `make`, `python`, and a C++ compiler (such as `g++`) installed. In the directory where you want `heropool` installed, run:
+
+    git clone https://github.com/lavosprime/heropool.git
+    cd heropool
+    make
+
+This should compile `heropool`, after which it is ready to use. If the program does not build on your machine, please [report the issue](https://github.com/lavosprime/heropool/issues) so I can help you solve it.
+
 Running the program
 -------------------
 
-- `heropool`: start in interactive mode to process many commands
-- `heropool <command>`: execute the single given `command`
+From the directory where `heropool` was compiled:
+
+- `./heropool`: start in interactive mode to process many commands
+- `./heropool <command>`: execute the single given `command`
 
 Commands
 --------
