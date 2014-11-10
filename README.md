@@ -5,6 +5,8 @@ A tool for keeping track of friends' Dota 2 hero pools.
 
 Depends on the `libsqlite3-dev` package on Linux; see [the SQLite website](http://sqlite.org/quickstart.html) for information on using the `sqlite3` library in in other environments.
 
+Dota is a trademark of Valve Corporation. This non-commercial project is not affiliated with Valve.
+
 Usage
 =====
 
