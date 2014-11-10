@@ -30,4 +30,11 @@ Details
 
 `heropool` will create and use a file called `heropool.db` in the directory where it is run. This is where the hero/player data is stored persistently, so make sure to always run `heropool` from the same directory and do not try to modify `heropool.db` yourself, or your data will be lost.
 
-Player names must use only letters, numbers, and underscores. Hero names use only letters; there are no spaces, hyphens, apostrophes, or other special characters. `heropool` understands several alternate names for many heroes; for example, for example, you may type "dp" instead of "deathprophet" or "veno" instead of "venomancer". The complete list of hero names and alternate names is part of `makeheromap.py`. Hero names and player names are case-insensitive; `heropool` will always show them as all-lowercase.
+Player names must use only letters, numbers, and underscores. Hero names use only letters; there are no spaces, hyphens, apostrophes, or other special characters. `heropool` understands several alternate names for many heroes; for example, for example, you may type "dp" instead of "deathprophet" or "veno" instead of "venomancer". The complete list of hero names and alternate names is part of `makeheromap.py`. Hero names and player names are case-insensitive, but `heropool` will always show them as all-lowercase.
+
+TODO
+====
+
+- basic interactivity
+- command parsing
+- database operations
