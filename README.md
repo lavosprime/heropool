@@ -3,9 +3,17 @@ heropool
 
 A tool for keeping track of friends' Dota 2 hero pools.
 
-Depends on the `libsqlite3-dev` package on Linux; see
-[the SQLite website](http://sqlite.org/quickstart.html) for information on using
-the `sqlite3` library in in other environments.
+Depends on the Boost libraries. Boost is available as the package
+`libboost-all-dev` in apt (on Debian-based Linux distributions such as Ubuntu);
+search the Internet to find whether your package manager has an equivalent,
+or see [the Boost website](http://www.boost.org/users/download/)
+for information on using the libraries in other environments.
+
+Depends on the SQLite library. SQLite is available as the package
+`libsqlite3-dev` in apt (on Debian-based Linux distributions such as Ubuntu);
+search the Internet to find whether your package manager has an equivalent,
+or see [the SQLite website](http://sqlite.org/quickstart.html)
+for information on using the library in other environments.
 
 Dota is a trademark of Valve Corporation. This non-commercial project is not
 affiliated with Valve.
@@ -16,9 +24,11 @@ Usage
 Getting the program
 -------------------
 
-Install the `libsqlite3-dev` package or the equivalent for your operating
-system. Ensure you also have `git`, `make`, `python`, and a C++ compiler (such
-as `g++`) installed. In the directory where you want `heropool` installed, run:
+Install the `libboost-all-dev` and `libsqlite3-dev` packages or the equivalents
+for your development environment. Ensure you also have `git`, `make`, `python`,
+and a C++ compiler (such as `g++`, which in apt is available as part of the
+package `build-essential`) installed. Open a terminal in the directory where you
+want `heropool` installed, and run:
 
     git clone https://github.com/lavosprime/heropool.git
     cd heropool
@@ -71,6 +81,5 @@ part of `makeheromap.py`. Hero names and player names are case-insensitive, but
 TODO
 ====
 
-- basic interactivity
 - command parsing
 - database operations
