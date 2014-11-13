@@ -2,20 +2,22 @@ CXXFLAGS = -g -O0 -Wall -Werror -Wpedantic -std=c++11
 LDFLAGS = -lsqlite3
 PROJ = heropool
 
-OBJS = Main.o HeroesByAlias.o
+OBJS = Main.o HeroData.o
 
 HEADERS = HeroData.h
 
+GENERATED = HeroesByAlias.inc
+
 all: $(PROJ)
 
-$(PROJ): $(OBJS) $(HEADERS)
+$(PROJ): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
-%.o: %.cc $(HEADERS)
+%.o: %.cc $(HEADERS) $(GENERATED)
 	$(CXX) $(CXXFLAGS) -c $<
 
-HeroesByAlias.cc: makeheromap.py
+HeroesByAlias.inc: makeheromap.py
 	python $< > $@
 
 clean:
-	-rm -f *.o $(PROJ) HeroesByAlias.cc
+	-rm -f *.o $(PROJ) $(GENERATED)

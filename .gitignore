@@ -30,6 +30,8 @@
 # Editor and temporary files
 *.swp
 
+# Generated includeable files
+*.inc
+
 # Project-specific files
-HeroesByAlias.cc
 heropool

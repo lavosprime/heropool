@@ -6,29 +6,10 @@
 
 def main():
     aliases = get_aliases()
-    print("""\
-#include "HeroData.h"
-
-#include <cassert>
-#include <map>
-#include <string>
-
-static std::map<std::string, std::string> heroesByAlias {""");
     for heroname in aliases:
         print('  {"' + heroname + '", "' + heroname + '"},')
         for alias in aliases[heroname]:
             print('  {"' + alias + '", "' + heroname + '"},')
-    print("""\
-};
-
-const bool HeroExistsForAlias(const std::string& alias) {
-  return heroesByAlias.count(alias) == 1;
-}
-
-const std::string& GetHeroByAlias(const std::string& alias) {
-  assert(HeroExistsForAlias(alias));
-  return heroesByAlias[alias];
-}""");
 
 def get_aliases():
     return {
