@@ -68,7 +68,10 @@ Details
 `heropool` will create and use a file called `heropool.db` in the directory
 where it is run. This is where the hero/player data is stored persistently, so
 make sure to always run `heropool` from the same directory and do not try to
-modify `heropool.db` yourself, or your data will be lost.
+modify `heropool.db` yourself, or your data will be lost. `heropool` will
+attempt to check whether it was run from its own directory and warn you if it
+has not, but this check can probably be fooled. `heropool` may behave
+unpredictably if `heropool.db` is corrupted.
 
 Player names must use only letters, numbers, and underscores. Hero names use
 only letters; there are no spaces, hyphens, apostrophes, or other special
