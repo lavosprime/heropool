@@ -2,11 +2,11 @@ CXXFLAGS = -g -O0 -Wall -Werror -Wpedantic -std=c++11
 LDFLAGS = -lsqlite3
 PROJ = heropool
 
-OBJS = Main.o HeroData.o
+OBJS = Main.o HeroData.o Database.o
 
-HEADERS = HeroData.h
+HEADERS = HeroData.h Database.h
 
-GENERATED = HeroesByAlias.inc
+GENERATED = HeroesByAlias.inc insert.sql.inc
 
 all: $(PROJ)
 
