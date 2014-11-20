@@ -3,4 +3,4 @@
 --
 -- insert.sql: Query to insert a single tuple into the database.
 
-INSERT INTO Plays VALUES('%1', '%2');
+INSERT INTO Plays VALUES('%1%', '%2%');

@@ -10,23 +10,22 @@
 #include "Database.h"
 
 #include <iostream>
-#include <sstream>
 #include <string>
 
-#include <boost/format.hpp>  // boost::format is like stream-friendly sprintf
+#include <boost/format.hpp>  // boost::format is like sprintf
 #include <sqlite3.h>
 
 using std::string;
-using std::stringstream;
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //   SQL query format strings
 //
 // "kFooSQL" string constants are initialized to the contents of external files.
-// During compilation, "foo.sql" is stripped of comments and hex-dumped to
-// "foo.sql.inc" as a character-array initializer list, which the definition of
-// kFooSQL can directly #include.
+// During compilation, "foo.sql" is stripped of comments and blank lines, then
+// the binary representation of the resulting text is formatted in hex as a C
+// character-array initializer list and saved as "foo.sql.inc", which the
+// definition of kFooSQL can directly #include as a constructor argument.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -57,9 +56,9 @@ Database::~Database() {
   }
 }
 
-bool InsertTuple(const string &player, const string &hero) {
-  std::stringstream query;
-  query << boost::format(kInsertSQL) % player % hero;
+bool Database::InsertTuple(const string &player, const string &hero) {
+  std::cerr << kInsertSQL;
+  auto query = boost::format(kInsertSQL) % player % hero;
   const char *cquery = query.str().c_str();
   std::cerr << cquery <<std::endl; // TODO remove debug prints
   // TODO send the query to the database engine
