@@ -18,10 +18,10 @@ $(PROJ): $(OBJS)
 %.o: %.cc $(HEADERS) $(GENERATED)
 	$(CXX) $(CXXFLAGS) -c $<
 
-# SQL source files are stripped of comments and then hex-dumped as C array
-# initializer lists to be #included in string definitions.
+# SQL source files are stripped of comments and blank lines and then hex-dumped
+# as C array initializer lists to be #included in string definitions.
 %.sql.inc: %.sql
-	sed -r "s/^--.*$$//g" $< | xxd -i > $@
+	sed "/^--.*$$\|^$$/d" $< | xxd -i > $@
 
 # Print hero data as a C++ initializer list to be #included in a map definition.
 HeroesByAlias.inc: makeheromap.py
