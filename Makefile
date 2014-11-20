@@ -24,7 +24,7 @@ $(PROJ): $(OBJS)
 	sed "/^--.*$$\|^$$/d" $< | xxd -i > $@
 
 # Print hero data as a C++ initializer list to be #included in a map definition.
-HeroesByAlias.inc: makeheromap.py
+HeroesByAlias.inc: makeheromap.py HeroNames.json
 	python $< > $@
 
 # Remove all non-source files.

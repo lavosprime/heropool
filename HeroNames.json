@@ -1,0 +1,360 @@
+{
+  "abaddon": [
+    "aba",
+    "abad"
+  ],
+  "abyssalunderlord": [
+    "pitlord"
+  ],
+  "alchemist": [
+    "alch"
+  ],
+  "ancientapparition": [
+    "aa"
+  ],
+  "antimage": [
+    "am",
+    "anti",
+    "magina"
+  ],
+  "arcwarden": [
+  ],
+  "axe": [
+  ],
+  "bane": [
+  ],
+  "batrider": [
+    "bat"
+  ],
+  "beastmaster": [
+  ],
+  "bloodseeker": [
+    "blood",
+    "bloodcyka",
+    "bs"
+  ],
+  "bountyhunter": [
+    "bh",
+    "bounty"
+  ],
+  "brewmaster": [
+    "brew",
+    "panda"
+  ],
+  "bristleback": [
+    "bb",
+    "bristle"
+  ],
+  "broodmother": [
+    "bm",
+    "brood"
+  ],
+  "centaurwarrunner": [
+    "cent",
+    "centaur"
+  ],
+  "chaosknight": [
+    "ck"
+  ],
+  "chen": [
+  ],
+  "clinkz": [
+  ],
+  "clockwerk": [
+    "clock"
+  ],
+  "crystalmaiden": [
+    "cm"
+  ],
+  "darkseer": [
+    "ds"
+  ],
+  "dazzle": [
+  ],
+  "deathprophet": [
+    "dp",
+    "krob",
+    "krobelus"
+  ],
+  "disruptor": [
+  ],
+  "doom": [
+    "doombringer",
+    "lucifer"
+  ],
+  "dragonknight": [
+    "davion",
+    "dk"
+  ],
+  "drowranger": [
+    "drow",
+    "traxex"
+  ],
+  "earthshaker": [
+    "shaker"
+  ],
+  "earthspirit": [
+    "kaolin"
+  ],
+  "eldertitan": [
+    "et"
+  ],
+  "emberspirit": [
+    "ember",
+    "xin"
+  ],
+  "enchantress": [
+    "ench"
+  ],
+  "enigma": [
+  ],
+  "facelessvoid": [
+    "darkterror",
+    "faceless",
+    "void"
+  ],
+  "goblintechies": [
+    "techies"
+  ],
+  "gyrocopter": [
+    "gyro"
+  ],
+  "huskar": [
+    "husk"
+  ],
+  "invoker": [
+    "carl",
+    "voker"
+  ],
+  "io": [
+    "wisp"
+  ],
+  "jakiro": [
+    "jak",
+    "thd"
+  ],
+  "juggernaut": [
+    "jugg",
+    "jugger",
+    "yurnero"
+  ],
+  "keeperofthelight": [
+    "ezalor",
+    "kotl"
+  ],
+  "kunkka": [
+  ],
+  "legioncommander": [
+    "lc",
+    "legion",
+    "tresdin"
+  ],
+  "leshrac": [
+    "lesh"
+  ],
+  "lich": [
+  ],
+  "lifestealer": [
+    "naix",
+    "ls"
+  ],
+  "lina": [
+  ],
+  "lion": [
+  ],
+  "lonedruid": [
+    "ld",
+    "sylla",
+    "syllabear"
+  ],
+  "luna": [
+  ],
+  "lycan": [
+    "lycanthrope"
+  ],
+  "magnus": [
+    "mag"
+  ],
+  "medusa": [
+    "dusa"
+  ],
+  "meepo": [
+  ],
+  "mirana": [
+    "potm"
+  ],
+  "morphling": [
+    "morph"
+  ],
+  "nagasiren": [
+    "naga"
+  ],
+  "naturesprophet": [
+    "furion",
+    "np",
+    "prophet"
+  ],
+  "necrophos": [
+    "necro",
+    "necrolyte"
+  ],
+  "nightstalker": [
+    "balanar",
+    "ns"
+  ],
+  "nyxassassin": [
+    "nyx"
+  ],
+  "ogremagi": [
+    "ogre"
+  ],
+  "omniknight": [
+    "omni"
+  ],
+  "oracle": [
+  ],
+  "outworlddevourer": [
+    "od"
+  ],
+  "phantomassassin": [
+    "mortred",
+    "pa"
+  ],
+  "phantomlancer": [
+    "cancer",
+    "pl"
+  ],
+  "phoenix": [
+  ],
+  "puck": [
+  ],
+  "pudge": [
+    "butcher"
+  ],
+  "pugna": [
+  ],
+  "queenofpain": [
+    "akasha",
+    "qop"
+  ],
+  "razor": [
+  ],
+  "riki": [
+    "rikimaru",
+    "sa"
+  ],
+  "rubick": [
+  ],
+  "sandking": [
+    "sk"
+  ],
+  "shadowdemon": [
+    "sd"
+  ],
+  "shadowfiend": [
+    "nevermore",
+    "sf"
+  ],
+  "shadowshaman": [
+    "rhasta",
+    "shaman"
+  ],
+  "silencer": [
+  ],
+  "skywrathmage": [
+    "drag",
+    "dragonus",
+    "skywrath",
+    "sm",
+    "swm"
+  ],
+  "slardar": [
+  ],
+  "slark": [
+  ],
+  "sniper": [
+  ],
+  "spectre": [
+    "spec"
+  ],
+  "spiritbreaker": [
+    "bara",
+    "barathrum",
+    "sb",
+    "spacecow"
+  ],
+  "stormspirit": [
+    "raijin",
+    "storm"
+  ],
+  "sven": [
+  ],
+  "templarassassin": [
+    "lanaya",
+    "ta"
+  ],
+  "terrorblade": [
+    "tb",
+    "tblade",
+    "terror"
+  ],
+  "tidehunter": [
+    "tide"
+  ],
+  "timbersaw": [
+    "timber"
+  ],
+  "tinker": [
+  ],
+  "tiny": [
+    "tony"
+  ],
+  "treantprotector": [
+    "treant"
+  ],
+  "trollwarlord": [
+    "troll"
+  ],
+  "tusk": [
+    "ymir"
+  ],
+  "undying": [
+    "dirge"
+  ],
+  "ursa": [
+  ],
+  "vengefulspirit": [
+    "venge",
+    "vs"
+  ],
+  "venomancer": [
+    "veno"
+  ],
+  "viper": [
+  ],
+  "visage": [
+  ],
+  "warlock": [
+  ],
+  "weaver": [
+  ],
+  "windranger": [
+    "wind",
+    "windrunner",
+    "wr"
+  ],
+  "winterwyvern": [
+    "ww",
+    "wyvern"
+  ],
+  "witchdoctor": [
+    "wd"
+  ],
+  "wraithking": [
+    "leoric",
+    "skeletonking",
+    "wk"
+  ],
+  "zeus": [
+  ]
+}

@@ -86,4 +86,3 @@ TODO
 
 - command parsing
 - database operations
-- move hero data to xml
