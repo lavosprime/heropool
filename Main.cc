@@ -7,6 +7,7 @@
 
 *******************************************************************************/
 
+#include "Database.h"
 #include "HeroData.h"
 
 #include <cassert>
@@ -14,7 +15,7 @@
 #include <string>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string.hpp>  // boost::split to split strings
 
 using std::cin;
 using std::cout;
@@ -25,19 +26,20 @@ using std::vector;
 static const string workingDirWarning =
     "Warning: heropool was not launched from its own directory.";
 
-static bool ProcessSingleCommand(vector<string> commandArgs);
-static void ProcessCommandsInteractively(void);
+static bool ProcessSingleCommand(Database db, vector<string> commandArgs);
+static void ProcessCommandsInteractively(Database db);
 static void WarnAboutWorkingDirectory(string arg0);
 
 int main(int argc, char **argv) {
+  Database db("./heropool.db");
   if (argc > 0) {
     WarnAboutWorkingDirectory(argv[0]);
   }
   if (argc > 1) {
     vector<string> commandArgs(argv + 1, argv + argc);
-    ProcessSingleCommand(commandArgs);
+    ProcessSingleCommand(db, commandArgs);
   } else {
-    ProcessCommandsInteractively();
+    ProcessCommandsInteractively(db);
   }
   return 0;
 }
@@ -48,7 +50,7 @@ static void WarnAboutWorkingDirectory(string arg0) {
   }
 }
 
-static bool ProcessSingleCommand(vector<string> commandArgs) {
+static bool ProcessSingleCommand(Database db, vector<string> commandArgs) {
   for (auto arg : commandArgs) {
     cout << arg << endl;
   }
@@ -57,13 +59,13 @@ static bool ProcessSingleCommand(vector<string> commandArgs) {
   return 0; // return !cmd.causesExit();
 }
 
-static void ProcessCommandsInteractively(void) {
+static void ProcessCommandsInteractively(Database db) {
   bool shouldContinue = true;
   while (shouldContinue) {
     string inputLine;
-    getline(cin, inputLine);
+    std::getline(cin, inputLine);
     vector<string> commandArgs;
     boost::split(commandArgs, inputLine, boost::is_any_of("\t "));
-    shouldContinue = ProcessSingleCommand(commandArgs);
+    shouldContinue = ProcessSingleCommand(db, commandArgs);
   }
 }
