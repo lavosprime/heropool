@@ -84,5 +84,6 @@ part of `makeheromap.py`. Hero names and player names are case-insensitive, but
 TODO
 ====
 
+- clean up directory structure
 - command parsing
 - database operations
