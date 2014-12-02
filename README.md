@@ -57,9 +57,9 @@ Commands
 - `players`: list all players currently tracked
 - `players <hero>`: list the players who play the given `hero`
 - `add <player> <hero>`:  record that the given `player` plays the given `hero`
-- `add -p <hero>`: record several players who play the given `hero` on separate
-  lines until a blank line occurs
-- `add <player> -h`: record several heroes that the given `player` plays on
+- `addplayers <hero>`: record several players who play the given `hero` on
+  separate lines until a blank line occurs
+- `addheroes <player>`: record several heroes that the given `player` plays on
   separate lines until a blank line occurs
 
 Details
