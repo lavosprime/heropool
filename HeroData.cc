@@ -13,15 +13,17 @@
 #include <map>
 #include <string>
 
-static std::map<std::string, std::string> heroesByAlias {
+using std::string;
+
+static std::map<string, string> heroesByAlias {
 #include "HeroesByAlias.inc"
 };
 
-const bool HeroExistsForAlias(const std::string& alias) {
+const bool HeroExistsForAlias(const string& alias) {
   return heroesByAlias.count(alias) == 1;
 }
 
-const std::string& GetHeroByAlias(const std::string& alias) {
+const string& GetHeroByAlias(const string& alias) {
   assert(HeroExistsForAlias(alias));
   return heroesByAlias[alias];
 }

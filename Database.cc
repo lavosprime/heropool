@@ -13,7 +13,9 @@
 #include <string>
 
 #include <boost/format.hpp>  // boost::format is like sprintf
-#include <sqlite3.h>
+extern "C" {
+  #include <sqlite3.h>
+}
 
 using std::string;
 
@@ -40,7 +42,7 @@ static const string kInsertSQL({
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-Database::Database(const string &filename) {
+Database::Database(const string& filename) {
   int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
   // TODO detect whether creation was needed, and init the db if so
   int errcode = sqlite3_open_v2(filename.c_str(), &(this->db_), flags, nullptr);
@@ -56,7 +58,7 @@ Database::~Database() {
   }
 }
 
-bool Database::InsertTuple(const string &player, const string &hero) {
+bool Database::InsertTuple(const string& player, const string& hero) {
   std::cerr << kInsertSQL;
   auto query = boost::format(kInsertSQL) % player % hero;
   const char *cquery = query.str().c_str();

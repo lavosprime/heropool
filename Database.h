@@ -13,7 +13,9 @@
 #include <string>
 
 #include <boost/utility.hpp>
-#include <sqlite3.h>
+extern "C" {
+  #include <sqlite3.h>
+}
 
 using std::string;
 
@@ -24,15 +26,15 @@ class Database : boost::noncopyable {
  public:
   // Connects to a database with the given filename, creating the file if it
   // does not exist. May fail, which will cause all other operations to fail.
-  Database(const string &filename);
+  Database(const string& filename);
   // Records (if not already recorded) that the given player plays the given
   // hero. Returns true if the transaction completed successfully.
-  bool InsertTuple(const string &player, const string &hero);
+  bool InsertTuple(const string& player, const string& hero);
   // Closes the database connection.
   ~Database();
  private:
   // A database access object from SQLite's API. NULL if constructor failed.
-  sqlite3 *db_;
+  sqlite3* db_;
 };
 
 #endif  // HEROPOOL_DATABASE_H_
