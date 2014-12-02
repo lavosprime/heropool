@@ -7,6 +7,7 @@
 
 *******************************************************************************/
 
+#include "Command.h"
 #include "Database.h"
 #include "HeroData.h"
 
@@ -51,12 +52,12 @@ static void WarnAboutWorkingDirectory(string arg0) {
 }
 
 static bool ProcessSingleCommand(Database& db, vector<string>& commandArgs) {
-  for (auto arg : commandArgs) {
-    cout << arg << endl;
+  if (commandArgs.size() == 0) {
+    return true;
   }
-  // Command cmd(commandArgs);
-  // cmd.run();
-  return 0; // return !cmd.causesExit();
+  Command cmd(commandArgs);
+  cmd.Execute(db);
+  return !cmd.CausesExit();
 }
 
 static void ProcessCommandsInteractively(Database& db) {
