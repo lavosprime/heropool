@@ -78,7 +78,7 @@ only letters; there are no spaces, hyphens, apostrophes, or other special
 characters. `heropool` understands several alternate names for many heroes; for
 example, for example, you may type "dp" instead of "deathprophet" or "veno"
 instead of "venomancer". The complete list of hero names and alternate names is
-part of `makeheromap.py`. Hero names and player names are case-insensitive, but
+part of `HeroNames.json`. Hero names and player names are case-insensitive, but
 `heropool` will always show them as all-lowercase.
 
 TODO
