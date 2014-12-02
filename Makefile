@@ -1,6 +1,6 @@
 CXXFLAGS = -g -O0 -Wall -Werror -Wpedantic -std=c++11
 LDFLAGS = -lsqlite3
-PROJ = heropool
+PROG = heropool
 
 OBJS = Main.o HeroData.o Database.o
 
@@ -8,14 +8,17 @@ HEADERS = HeroData.h Database.h
 
 GENERATED = HeroesByAlias.inc insert.sql.inc
 
-all: $(PROJ)
+all: $(PROG)
 
 # The main program binary is linked together from libraries and object files.
-$(PROJ): $(OBJS)
+$(PROG): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
+# Object files depend on generated include files.
+$(OBJS): $(GENERATED)
+
 # C++ source files are compiled to object files normally.
-%.o: %.cc $(HEADERS) $(GENERATED)
+%.o: %.cc $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $<
 
 # SQL source files are stripped of comments and blank lines and then hex-dumped
@@ -29,4 +32,4 @@ HeroesByAlias.inc: makeheromap.py HeroNames.json
 
 # Remove all non-source files.
 clean:
-	-rm -f *.o *.inc $(PROJ)
+	-rm -f *.o *.inc $(PROG)
