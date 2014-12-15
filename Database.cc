@@ -42,7 +42,7 @@ static const string kInsertSQL({
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-explicit Database::Database(const string& filename) {
+Database::Database(const string& filename) {
   int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
   // TODO detect whether creation was needed, and init the db if so
   int errcode = sqlite3_open_v2(filename.c_str(), &(this->db_), flags, nullptr);
