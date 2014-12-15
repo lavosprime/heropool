@@ -26,7 +26,7 @@ class Database : boost::noncopyable {
  public:
   // Connects to a database with the given filename, creating the file if it
   // does not exist. May fail, which will cause all other operations to fail.
-  Database(const string& filename);
+  explicit Database(const string& filename);
   // Records (if not already recorded) that the given player plays the given
   // hero. Returns true if the transaction completed successfully.
   bool InsertTuple(const string& player, const string& hero);
