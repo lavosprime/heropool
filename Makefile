@@ -8,6 +8,8 @@ HEADERS = HeroData.h Database.h Command.h
 
 GENERATED = HeroesByAlias.inc insert.sql.inc
 
+CPPLINT = http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
+
 all: $(PROG)
 
 # The main program binary is linked together from libraries and object files.
@@ -29,6 +31,9 @@ $(OBJS): $(GENERATED)
 # Print hero data as a C++ initializer list to be #included in a map definition.
 HeroesByAlias.inc: makeheromap.py HeroNames.json
 	python $< > $@
+
+cpplint.py:
+	wget --no-verbose --no-clobber $(CPPLINT)
 
 # Remove all non-source files.
 clean:

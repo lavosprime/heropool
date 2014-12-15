@@ -33,6 +33,9 @@
 # Generated includeable files
 *.inc
 
+# Downloaded and external files
+cpplint.py
+
 # Project-specific files
 heropool
 heropool.db
