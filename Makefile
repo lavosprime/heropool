@@ -32,6 +32,9 @@ $(OBJS): $(GENERATED)
 HeroesByAlias.inc: makeheromap.py HeroNames.json
 	python $< > $@
 
+lint: | cpplint.py
+	python cpplint.py *.h *.cc
+
 cpplint.py:
 	wget --no-verbose --no-clobber $(CPPLINT)
 
