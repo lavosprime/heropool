@@ -10,27 +10,24 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
-#include "Database.h"
-
 #include <string>
 #include <vector>
 
-#include <boost/utility.hpp>
+#include "boost/utility.hpp"
 
-using std::string;
-using std::vector;
+#include "Database.h"
 
 // Handles a single user command based on the arguments provided by the user.
 class Command : boost::noncopyable {
  public:
   // Creates a Command that uses the given arguments for execution.
-  explicit Command(const vector<string>& args) : args_(args) {}
+  explicit Command(const std::vector<std::string>& args) : args_(args) {}
   // Performs the action specified by the command arguments.
   void Execute(Database& db);
   // Returns whether the program should end after execution of this command.
   bool CausesExit(void);
  private:
-  const vector<string>& args_;
+  const std::vector<std::string>& args_;
 };
 
 #endif  // COMMAND_H_

@@ -7,16 +7,16 @@
 
 *******************************************************************************/
 
-#include "Command.h"
-#include "Database.h"
-#include "HeroData.h"
-
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>  // boost::split to split strings
+#include "boost/algorithm/string.hpp"  // boost::split to split strings
+
+#include "Command.h"
+#include "Database.h"
+#include "HeroData.h"
 
 using std::cin;
 using std::cout;

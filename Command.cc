@@ -8,11 +8,8 @@
 *******************************************************************************/
 
 #include "Command.h"
-#include "Database.h"
 
 #include <iostream>
-#include <string>
-#include <vector>
 
 using std::cin;
 using std::cout;

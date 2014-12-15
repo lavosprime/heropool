@@ -10,12 +10,8 @@
 #include "Database.h"
 
 #include <iostream>
-#include <string>
 
-#include <boost/format.hpp>  // boost::format is like sprintf
-extern "C" {
-  #include <sqlite3.h>
-}
+#include "boost/format.hpp" // boost::format is like sprintf
 
 using std::string;
 
