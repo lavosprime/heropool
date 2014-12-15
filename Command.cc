@@ -15,7 +15,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-void Command::Execute(Database& db) {
+void Command::Execute(const Database* db) {
   for (auto arg : this->args_) {
     cout << arg << endl;
   }

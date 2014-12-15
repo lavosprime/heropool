@@ -27,9 +27,9 @@ using std::vector;
 static const char workingDirWarning[] =
     "Warning: heropool was not launched from its own directory.";
 
-static bool ProcessSingleCommand(Database& db,
+static bool ProcessSingleCommand(const Database* db,
                                  const vector<string>& commandArgs);
-static void ProcessCommandsInteractively(Database& db);
+static void ProcessCommandsInteractively(const Database* db);
 static void WarnAboutWorkingDirectory(const string& arg0);
 
 int main(int argc, char* argv[]) {
@@ -39,9 +39,9 @@ int main(int argc, char* argv[]) {
   }
   if (argc > 1) {
     vector<string> commandArgs(argv + 1, argv + argc);
-    ProcessSingleCommand(db, commandArgs);
+    ProcessSingleCommand(&db, commandArgs);
   } else {
-    ProcessCommandsInteractively(db);
+    ProcessCommandsInteractively(&db);
   }
   return 0;
 }
@@ -52,7 +52,7 @@ static void WarnAboutWorkingDirectory(const string& arg0) {
   }
 }
 
-static bool ProcessSingleCommand(Database& db,
+static bool ProcessSingleCommand(const Database* db,
                                  const vector<string>& commandArgs) {
   if (commandArgs.size() == 0) {
     return true;
@@ -62,7 +62,7 @@ static bool ProcessSingleCommand(Database& db,
   return !cmd.CausesExit();
 }
 
-static void ProcessCommandsInteractively(Database& db) {
+static void ProcessCommandsInteractively(const Database* db) {
   bool shouldContinue = true;
   while (shouldContinue) {
     string inputLine;
