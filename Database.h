@@ -7,8 +7,8 @@
 
 *******************************************************************************/
 
-#ifndef HEROPOOL_DATABASE_H_
-#define HEROPOOL_DATABASE_H_
+#ifndef DATABASE_H_
+#define DATABASE_H_
 
 #include <string>
 
@@ -37,4 +37,4 @@ class Database : boost::noncopyable {
   sqlite3* db_;
 };
 
-#endif  // HEROPOOL_DATABASE_H_
+#endif  // DATABASE_H_

@@ -7,8 +7,8 @@
 
 *******************************************************************************/
 
-#ifndef HEROPOOL_HERODATA_H_
-#define HEROPOOL_HERODATA_H_
+#ifndef HERODATA_H_
+#define HERODATA_H_
 
 #include <string>
 
@@ -25,4 +25,4 @@ const bool HeroExistsForAlias(const std::string& alias);
  */
 const std::string& GetHeroByAlias(const std::string& alias);
 
-#endif  // HEROPOOL_HERODATA_H_
+#endif  // HERODATA_H_

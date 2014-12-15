@@ -7,8 +7,8 @@
 
 *******************************************************************************/
 
-#ifndef HEROPOOL_COMMAND_H_
-#define HEROPOOL_COMMAND_H_
+#ifndef COMMAND_H_
+#define COMMAND_H_
 
 #include "Database.h"
 
@@ -33,4 +33,4 @@ class Command : boost::noncopyable {
   vector<string>& args_;
 };
 
-#endif  // HEROPOOL_COMMAND_H_
+#endif  // COMMAND_H_
