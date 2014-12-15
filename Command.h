@@ -24,13 +24,13 @@ using std::vector;
 class Command : boost::noncopyable {
  public:
   // Creates a Command that uses the given arguments for execution.
-  explicit Command(vector<string>& args) : args_(args) {}
+  explicit Command(const vector<string>& args) : args_(args) {}
   // Performs the action specified by the command arguments.
   void Execute(Database& db);
   // Returns whether the program should end after execution of this command.
   bool CausesExit(void);
  private:
-  vector<string>& args_;
+  const vector<string>& args_;
 };
 
 #endif  // COMMAND_H_
