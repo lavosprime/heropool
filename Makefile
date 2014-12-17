@@ -1,16 +1,29 @@
-CXXFLAGS = -g -O0 -Wall -Werror -Wpedantic -std=c++11
+CXXFLAGS = -Wall -Werror -Wpedantic -std=c++11
 LDFLAGS = -lsqlite3
+RELEASEFLAGS = -O3
+DEBUGFLAGS = -g -Og
+VALIDATEFLAGS = -g -Og -fsanitize=address -fno-omit-frame-pointer
+
 PROG = heropool
-
 OBJS = Main.o HeroData.o Database.o Command.o
-
 HEADERS = HeroData.h Database.h Command.h
-
 GENERATED = HeroesByAlias.inc insert.sql.inc
-
 CPPLINT = http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
 
-all: $(PROG)
+.PHONY: default release debug validate lint lint-headers clean
+default: debug
+
+release: CXXFLAGS += $(RELEASEFLAGS)
+release: RUNCPPLINT =
+release: $(PROG)
+
+debug: CXXFLAGS += $(DEBUGFLAGS)
+debug: RUNCPPLINT = -python cpplint.py $<
+debug: $(PROG) | cpplint.py
+
+validate: CXXFLAGS += $(VALIDATEFLAGS)
+validate: RUNCPPLINT = python cpplint.py $<
+validate: lint-headers $(PROG) | cpplint.py
 
 # The main program binary is linked together from libraries and object files.
 $(PROG): $(OBJS)
@@ -19,8 +32,10 @@ $(PROG): $(OBJS)
 # Object files depend on generated include files.
 $(OBJS): $(GENERATED)
 
-# C++ source files are compiled to object files normally.
+# C++ source files are compiled to object files normally and are linted before
+# compliation in some builds.
 %.o: %.cc $(HEADERS)
+	$(RUNCPPLINT)
 	$(CXX) $(CXXFLAGS) -c $<
 
 # SQL source files are stripped of comments and blank lines and then hex-dumped
@@ -34,6 +49,9 @@ HeroesByAlias.inc: makeheromap.py HeroNames.json
 
 lint: | cpplint.py
 	python cpplint.py *.h *.cc
+
+lint-headers: $(HEADERS) | cpplint.py
+	python cpplint.py $^
 
 cpplint.py:
 	wget --no-verbose --no-clobber $(CPPLINT)
