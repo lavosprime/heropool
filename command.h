@@ -13,12 +13,10 @@
 #include <string>
 #include <vector>
 
-#include "boost/utility.hpp"
-
 #include "./database.h"
 
 // Handles a single user command based on the arguments provided by the user.
-class Command : boost::noncopyable {
+class Command {
  public:
   // Creates a Command that uses the given arguments for execution.
   explicit Command(const std::vector<std::string>& args) : args_(args) {}
@@ -27,6 +25,8 @@ class Command : boost::noncopyable {
   // Returns whether the program should end after execution of this command.
   bool CausesExit(void);
  private:
+  Command(const Command&) = delete;  // disable copy constructor
+  Command& operator=(const Command&) = delete;  // disable assignment
   const std::vector<std::string>& args_;
 };
 
