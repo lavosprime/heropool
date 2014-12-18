@@ -1,8 +1,8 @@
-CXXFLAGS = -Wall -Werror -Wpedantic -std=c++11
+CXXFLAGS = -Wall -Wextra -Werror -Wpedantic -Weffc++ -Wno-error=effc++ -Wno-error=unused-parameter -std=c++11
 LDFLAGS = -lsqlite3
-RELEASEFLAGS = -O3
+RELEASEFLAGS = -O3 -s -DNDEBUG
 DEBUGFLAGS = -g -Og
-VALIDATEFLAGS = -g -Og -fsanitize=address -fno-omit-frame-pointer
+VALIDATEFLAGS = -g -Og -Wunused-macros -Wundef -fsanitize=address -fno-omit-frame-pointer
 
 PROG = heropool
 OBJS = Main.o HeroData.o Database.o Command.o
