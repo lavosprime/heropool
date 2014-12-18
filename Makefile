@@ -5,8 +5,8 @@ DEBUGFLAGS = -g -Og
 VALIDATEFLAGS = -g -Og -Wunused-macros -Wundef -fsanitize=address -fno-omit-frame-pointer
 
 PROG = heropool
-OBJS = Main.o HeroData.o Database.o Command.o
-HEADERS = HeroData.h Database.h Command.h
+OBJS = main.o herodata.o database.o command.o
+HEADERS = herodata.h database.h command.h
 GENERATED = HeroesByAlias.inc insert.sql.inc
 CPPLINT = http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
 

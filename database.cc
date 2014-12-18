@@ -7,11 +7,11 @@
 
 *******************************************************************************/
 
-#include "Database.h"
+#include "./database.h"
 
 #include <iostream>
 
-#include "boost/format.hpp" // boost::format is like sprintf
+#include "boost/format.hpp"  // boost::format is like sprintf
 
 using std::string;
 
@@ -58,7 +58,7 @@ bool Database::InsertTuple(const string& player, const string& hero) {
   std::cerr << kInsertSQL;
   auto query = boost::format(kInsertSQL) % player % hero;
   const char *cquery = query.str().c_str();
-  std::cerr << cquery <<std::endl; // TODO remove debug prints
+  std::cerr << cquery <<std::endl;  // TODO remove debug prints
   // TODO send the query to the database engine
   return true;
 }

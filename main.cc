@@ -14,9 +14,9 @@
 
 #include "boost/algorithm/string.hpp"  // boost::split to split strings
 
-#include "Command.h"
-#include "Database.h"
-#include "HeroData.h"
+#include "./command.h"
+#include "./database.h"
+#include "./herodata.h"
 
 using std::cin;
 using std::cout;

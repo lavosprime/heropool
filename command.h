@@ -15,7 +15,7 @@
 
 #include "boost/utility.hpp"
 
-#include "Database.h"
+#include "./database.h"
 
 // Handles a single user command based on the arguments provided by the user.
 class Command : boost::noncopyable {

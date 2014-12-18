@@ -7,7 +7,7 @@
 
 *******************************************************************************/
 
-#include "HeroData.h"
+#include "./herodata.h"
 
 #include <cassert>
 #include <map>
@@ -18,7 +18,7 @@ static std::map<string, string> heroesByAlias {
 #include "HeroesByAlias.inc"
 };
 
-const bool HeroExistsForAlias(const string& alias) {
+bool HeroExistsForAlias(const string& alias) {
   return heroesByAlias.count(alias) == 1;
 }
 

@@ -16,7 +16,7 @@
  * Returns true if the given alias or nickname is known to actually refer to a
  * hero; returns false otherwise.
  */
-const bool HeroExistsForAlias(const std::string& alias);
+bool HeroExistsForAlias(const std::string& alias);
 
 /**
  * Returns the canonical name of the hero matching the given alias or nickname.
