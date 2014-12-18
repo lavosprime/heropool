@@ -19,7 +19,7 @@ extern "C" {
 // Abstracts away the SQL queries and SQLite API required to use a local
 // database; instead, provides only the few particular operations required by
 // the rest of the program.
-class Database {
+class Database final {
  public:
   // Connects to a database with the given filename, creating the file if it
   // does not exist. May fail, which will cause all other operations to fail.

@@ -16,7 +16,7 @@
 #include "./database.h"
 
 // Handles a single user command based on the arguments provided by the user.
-class Command {
+class Command final {
  public:
   // Creates a Command that uses the given arguments for execution.
   explicit Command(const std::vector<std::string>& args) : args_(args) {}
