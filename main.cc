@@ -29,7 +29,7 @@ const char workingDirWarning[] =
 
 namespace {
 
-bool ProcessSingleCommand(const Database* db,
+bool ProcessSingleCommand(Database* const db,
                           const vector<string>& commandArgs) {
   if (commandArgs.size() == 0) {
     return true;
@@ -39,7 +39,7 @@ bool ProcessSingleCommand(const Database* db,
   return !cmd.CausesExit();
 }
 
-void ProcessCommandsInteractively(const Database* db) {
+void ProcessCommandsInteractively(Database* const db) {
   bool shouldContinue = true;
   while (shouldContinue) {
     string inputLine;
