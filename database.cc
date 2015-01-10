@@ -23,18 +23,22 @@ using std::string;
 // During compilation, "foo.sql" is stripped of comments and blank lines, then
 // the binary representation of the resulting text is formatted in hex as a C
 // character-array initializer list and saved as "foo.sql.inc", which the
-// definition of kFooSQL can directly #include as a constructor argument.
+// definition of kFooSQL can directly #include.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 // Query format for inserting a (player, hero) tuple into the database.
-static const string kInsertSQL({
+const char kInsertSQL[] {
 #include "insert.sql.inc"
-});
+};
+
+// The magic ends here :)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 //   Function definitions
+//
+// SQLite's API is documented at https://www.sqlite.org/capi3ref.html
 //
 ////////////////////////////////////////////////////////////////////////////////
 

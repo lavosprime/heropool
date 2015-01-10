@@ -24,13 +24,39 @@ using std::endl;
 using std::string;
 using std::vector;
 
-static const char workingDirWarning[] =
+const char workingDirWarning[] =
     "Warning: heropool was not launched from its own directory.";
 
-static bool ProcessSingleCommand(const Database* db,
-                                 const vector<string>& commandArgs);
-static void ProcessCommandsInteractively(const Database* db);
-static void WarnAboutWorkingDirectory(const string& arg0);
+namespace {
+
+bool ProcessSingleCommand(const Database* db,
+                          const vector<string>& commandArgs) {
+  if (commandArgs.size() == 0) {
+    return true;
+  }
+  Command cmd(commandArgs);
+  cmd.Execute(db);
+  return !cmd.CausesExit();
+}
+
+void ProcessCommandsInteractively(const Database* db) {
+  bool shouldContinue = true;
+  while (shouldContinue) {
+    string inputLine;
+    std::getline(cin, inputLine);
+    vector<string> commandArgs;
+    boost::split(commandArgs, inputLine, boost::is_any_of("\t "));
+    shouldContinue = ProcessSingleCommand(db, commandArgs);
+  }
+}
+
+void WarnAboutWorkingDirectory(const string& arg0) {
+  if (arg0 != "./heropool") {
+    cout << workingDirWarning << endl;
+  }
+}
+
+}  // namespace
 
 int main(int argc, char* argv[]) {
   Database db("./heropool.db");
@@ -46,29 +72,3 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-static void WarnAboutWorkingDirectory(const string& arg0) {
-  if (arg0 != "./heropool") {
-    cout << workingDirWarning << endl;
-  }
-}
-
-static bool ProcessSingleCommand(const Database* db,
-                                 const vector<string>& commandArgs) {
-  if (commandArgs.size() == 0) {
-    return true;
-  }
-  Command cmd(commandArgs);
-  cmd.Execute(db);
-  return !cmd.CausesExit();
-}
-
-static void ProcessCommandsInteractively(const Database* db) {
-  bool shouldContinue = true;
-  while (shouldContinue) {
-    string inputLine;
-    std::getline(cin, inputLine);
-    vector<string> commandArgs;
-    boost::split(commandArgs, inputLine, boost::is_any_of("\t "));
-    shouldContinue = ProcessSingleCommand(db, commandArgs);
-  }
-}

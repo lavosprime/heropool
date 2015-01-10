@@ -10,19 +10,27 @@
 #include "./herodata.h"
 
 #include <cassert>
-#include <map>
+#include <unordered_map>
 
 using std::string;
+using std::unordered_map;
 
-static std::map<string, string> heroesByAlias {
+namespace {
+
+inline const unordered_map<string, string>& HeroesByAlias(void) {
+  static const unordered_map<string, string> heroesByAlias {
 #include "HeroesByAlias.inc"
-};
+  };
+  return heroesByAlias;
+}
+
+}  // namespace
 
 bool HeroExistsForAlias(const string& alias) {
-  return heroesByAlias.count(alias) == 1;
+  return HeroesByAlias().count(alias) == 1;
 }
 
 const string& GetHeroByAlias(const string& alias) {
   assert(HeroExistsForAlias(alias));
-  return heroesByAlias[alias];
+  return HeroesByAlias().at(alias);
 }
