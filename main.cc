@@ -3,7 +3,7 @@
   Copyright (c) 2014 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
-  Main.cc: Setup, teardown, and user input.
+  main.cc: Setup, teardown, and user input.
 
 *******************************************************************************/
 
