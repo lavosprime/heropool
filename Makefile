@@ -1,4 +1,4 @@
-CXXFLAGS = -std=c++11 -Wall -Wextra -Werror -pedantic -pedantic-errors \
+CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -pedantic -pedantic-errors \
 	-Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Weffc++ \
 	-Wfloat-equal -Wformat=2 -Wlogical-op -Wmissing-declarations \
 	-Wnoexcept -Wold-style-cast -Woverloaded-virtual -Wredundant-decls \
