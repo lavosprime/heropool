@@ -1,11 +1,11 @@
-/*******************************************************************************
+/******************************************************************************\
 
-  Copyright (c) 2014 by Cooper Johnson <lavosprime@gmail.com>
+  Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
   main.cc: Setup, teardown, and user input.
 
-*******************************************************************************/
+\******************************************************************************/
 
 #include <cassert>
 #include <iostream>

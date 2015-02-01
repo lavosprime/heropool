@@ -1,11 +1,11 @@
-/*******************************************************************************
+/******************************************************************************\
 
-  Copyright (c) 2014 by Cooper Johnson <lavosprime@gmail.com>
+  Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
   database.cc: Implementations of database operations.
 
-*******************************************************************************/
+\******************************************************************************/
 
 #include "./database.h"
 
