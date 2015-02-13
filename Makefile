@@ -1,3 +1,8 @@
+# Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
+# This program is free software provided under the terms of the MIT License.
+#
+# Makefile: Builds the program in release, debug (default), or validate mode.
+
 CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -pedantic -pedantic-errors \
 	-Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Weffc++ \
 	-Wfloat-equal -Wformat=2 -Wlogical-op -Wmissing-declarations \
@@ -9,7 +14,8 @@ CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -pedantic -pedantic-errors \
 LDFLAGS = -lsqlite3
 RELEASEFLAGS = -O3 -s -DNDEBUG
 DEBUGFLAGS = -g -Og
-VALIDATEFLAGS = -g -Og -Wsuggest-final-types -Wsuggest-final-methods -Wunused-macros -fsanitize=address,undefined -fno-omit-frame-pointer
+VALIDATEFLAGS = -g -Og -Wsuggest-final-types -Wsuggest-final-methods \
+	-Wunused-macros -fsanitize=address,undefined -fno-omit-frame-pointer
 
 PROG = heropool
 OBJS = main.o herodata.o database.o command.o
@@ -20,14 +26,17 @@ CPPLINT = http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
 .PHONY: default release debug validate lint lint-headers clean
 default: debug
 
+# Optimize the program for release.
 release: CXXFLAGS += $(RELEASEFLAGS)
 release: RUNCPPLINT =
 release: $(PROG)
 
+# Compile the program normally for debugging.
 debug: CXXFLAGS += $(DEBUGFLAGS)
 debug: RUNCPPLINT = -python cpplint.py $<
 debug: $(PROG) | cpplint.py
 
+# Compile the program with extra warnings and validation.
 validate: CXXFLAGS += $(VALIDATEFLAGS)
 validate: RUNCPPLINT = python cpplint.py $<
 validate: lint-headers $(PROG) | cpplint.py
@@ -54,12 +63,15 @@ $(OBJS): $(GENERATED)
 HeroesByAlias.inc: makeheromap.py HeroNames.json
 	python $< > $@
 
-lint: | cpplint.py
+# Lint all C++ files.
+lint: | cpplint.p
 	python cpplint.py *.h *.cc
 
+# Lint all headers.
 lint-headers: $(HEADERS) | cpplint.py
 	python cpplint.py $^
 
+# If there isn't a local copy of cpplint.py, download it.
 cpplint.py:
 	wget --no-verbose --no-clobber $(CPPLINT)
 
