@@ -10,34 +10,72 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
+#include <functional>
 #include <string>
+#include <utility>
+#include <vector>
 
-extern "C" {
-  #include "sqlite3.h"
-}
+namespace heropool {
 
-// Abstracts away the SQL queries and SQLite API required to use a local
-// database; instead, provides only the few particular operations required by
-// the rest of the program.
-class Database final {
+// Abstracts away the SQL statements and result processing required to use a 
+// database. Database provides only the few particular operations required by
+// the rest of the program, and derived classes implement the underlying general
+// database operations in the form of an internal API of protected pure virtual
+// functions.
+class Database {
+  using std::function;
+  using std::pair;
+  using std::string;
+  using std::vector;
+
  public:
-  // Connects to a database with the given filename, creating the file if it
-  // does not exist. May fail, which will cause all other operations to fail.
-  explicit Database(const std::string& filename) : db_(OpenDB(filename)) {}
   // Records (if not already recorded) that the given player plays the given
-  // hero. Returns true if the transaction completed successfully.
-  bool InsertTuple(const std::string& player, const std::string& hero);
-  // Closes the database connection.
-  ~Database();
- private:
-  Database(const Database&) = delete;  // disable copy constructor
-  Database& operator=(const Database&) = delete;  // disable assignment
-  // Returns a database object from SQLite's API connected to a database with
-  // the given filename, creating the file if it does not exist, or nullptr
-  // if opening the database connection failed.
-  static sqlite3* OpenDB(const std::string& filename);
-  // A database access object from SQLite's API. nullptr if constructor failed.
-  sqlite3* db_;
+  // hero. Returns whether the operation completed successfully.
+  bool InsertPlayerHeroPair(const string& player, const string& hero) final;
+
+  // Copying is disabled so implementations don't have to worry about 
+
+  // Disable copy construction.
+  Database(const Database&) final = delete;
+  // Disable copy assignment.
+  Database& operator=(const Database&) final = delete;
+
+ protected:
+  using Row = vector<pair<string, string>>
+
+  // The constructor opens the database connection, but it should only be called
+  // from a factory function that returns a unique_ptr<Database>.
+  Database() {}
+
+  // Return whether the database needs initialization (first-time table setup).
+  virtual bool NeedsInit() noexcept = 0;
+
+  // Ensure that all future calls to NeedsInit will return true.
+  virtual void SetInitSuccessful() noexcept = 0;
+
+  // Perform some database action that does not return rows or whose returned
+  // rows do not matter. The action takes the form of a statement that may be
+  // parameterized and any parameters to the action. Returns whether the
+  // operation completed successfully.
+  virtual bool PerformAction(
+      const string& statement,
+      const vector<string>& parameters) = 0;
+
+  // Call a processor function on each Row resulting from a query. The query
+  // takes the form of a statement that may be paramaterized and any parameters
+  // to the query. The processor function must return true if processing is to
+  // continue normally or false if processing is to be aborted. ProcessRows
+  // returns whether the operation completed successfully.
+  virtual bool ProcessRows(
+      const string& statement,
+      const vector<string>& parameters,
+      const function<bool(const vector<pair<string, string>>&)>& processor) = 0;
+
+  // Close the database connection.
+  virtual ~Database();
+
 };
+
+}  // namespace heropool
 
 #endif  // DATABASE_H_
