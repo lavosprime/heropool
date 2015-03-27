@@ -16,6 +16,8 @@ extern "C" {
   #include "sqlite3.h"
 }
 
+#include "boost/filesystem.hpp"
+
 #include "./database.h"
 #include "./db_impl.h"
 
@@ -80,20 +82,23 @@ class SQLiteDatabase final : public DBImpl {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+const auto kOpenExisting = SQLITE_OPEN_READWRITE;
+const auto kOpenCreate = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+
 unique_ptr<Database> OpenSQLiteDatabase(
     const std::string& path) {
-  int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
-  // TODO detect whether creation was needed
-  sqlite3* raw_db;
-  auto needs_init = false;
-  int errcode = sqlite3_open_v2(filename.c_str(), &raw_db, flags, nullptr);
+  const auto needs_init = !boost::filesystem::exists(path);
+  const auto open_flags = needs_init ? kOpenCreate : kOpenExisting;
+  auto raw_db = sqlite3*{nullptr};
+  auto errcode = sqlite3_open_v2(path.c_str(), &raw_db, open_flags, nullptr);
   if (errcode != SQLITE_OK) {
+    while (raw_db != nullptr) {
+      if (sqlite_close(raw_db) == SQLITE_OK) {
+        raw_db = nullptr;
+      }
+    }
     std::cerr << sqlite3_errmsg(raw_db) << std::endl;  // rm debug prints
-    //*
     std::abort();
-    /*/
-    return nullptr;
-    //*/
   }
   return make_unique<Database>(make_unique<SQLiteDatabase>(raw_db, needs_init));
 }
@@ -113,9 +118,9 @@ void SQLiteDatabase::SetInitSuccessful() noexcept {
   needs_init_ = true;
 }
 
-namespace {
+namespace {  // helpers
 
-extern "C" {
+extern "C" {  // this needs to be callable from C!
 
 // A wrapper to get from SQLite's C callback interface back to C++ land.
 int SQLiteCallbackWrapper(
@@ -135,7 +140,7 @@ int SQLiteCallbackWrapper(
 
 }  // extern "C"
 
-bool ProcessRowsNoParams(
+inline bool ProcessRowsNoParams(
     const string& statement,
     const function<bool(const Row&)> processor,
     sqlite3* const db) {
@@ -154,7 +159,7 @@ bool ProcessRowsNoParams(
   }
 }
 
-bool ProcessRowsWithParams(
+inline bool ProcessRowsWithParams(
     const string& statement,
     const vector<string>& parameters,
     const function<bool(const Row&)> processor,
@@ -167,7 +172,7 @@ bool SQLiteDatabase::ProcessRows(
     const string& statement,
     const vector<string>& parameters,
     const function<bool(const Row&)>& processor) {
-  assert("SQLiteDatabase::ProcessRows not yet implemented", false);
+  assert(("SQLiteDatabase::ProcessRows not yet implemented", false));
 
   if (parameters.empty()) {
     return ProcessRowsNoParams(statement, processor, db_);
@@ -179,6 +184,7 @@ bool SQLiteDatabase::ProcessRows(
 bool SQLiteDatabase::PerformAction(
     const string& statement,
     const vector<string>& parameters) {
+  // "Process" nonexistent or unimportant rows with a dummy function.
   return ProcessRows(statement, parameters, [](const Row&) { return true; });
 }
 

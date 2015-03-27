@@ -11,15 +11,15 @@ CXXFLAGS = -std=c++14 -Wall -Wextra -Werror -pedantic -pedantic-errors \
 	-Wstrict-overflow=5 -Wswitch-default -Wundef -Wuseless-cast \
 	-Wzero-as-null-pointer-constant \
 	-Wno-error=effc++ -Wno-error=unused-parameter
-LDFLAGS = -lsqlite3
+LDFLAGS = -lboost_system -lboost_filesystem -lsqlite3
 RELEASEFLAGS = -O3 -s -DNDEBUG
 DEBUGFLAGS = -g -Og
 VALIDATEFLAGS = -g -Og -Wsuggest-final-types -Wsuggest-final-methods \
 	-Wunused-macros -fsanitize=address,undefined -fno-omit-frame-pointer
 
 PROG = heropool
-OBJS = main.o herodata.o database.o command.o
-HEADERS = herodata.h database.h command.h
+OBJS = main.o herodata.o database.o command.o sqlite_database.o
+HEADERS = herodata.h database.h command.h db_impl.h
 GENERATED = HeroesByAlias.inc insert.sql.inc
 CPPLINT = http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
 
