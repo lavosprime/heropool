@@ -3,12 +3,13 @@
   Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
-  sqlite_database.cc: Implementations of sqlite database operations.
+  sqlite_database.cc: Implementations of SQLite database operations.
 
 \******************************************************************************/
 
 #include "./sqlite_database.h"
 
+#include <cassert>
 #include <iostream>
 
 extern "C" {
@@ -16,8 +17,10 @@ extern "C" {
 }
 
 #include "./database.h"
+#include "./db_impl.h"
 
 using std::function;
+using std::make_unique;
 using std::pair;
 using std::string;
 using std::unique_ptr;
@@ -26,30 +29,41 @@ using Row = vector<pair<string, string>>;
 
 namespace heropool {
 
-class SQLiteDatabase final : public Database {
+// A version of DBImpl for using SQLite local databases.
+class SQLiteDatabase final : public DBImpl {
+ public:
   friend unique_ptr<Database> OpenSQLiteDatabase(const string& path);
 
- protected:
-  virtual bool NeedsInit() noexcept override { return needs_init_; }
+ private:
+  SQLiteDatabase(
+      sqlite3* const db,
+      bool needs_init)
+      : Database{}
+      , db_{db}
+      , needs_init_{needs_init} {}
 
-  virtual void SetInitSuccessful() noexcept override { needs_init_ = true; }
+  virtual ~SQLiteDatabase();
+
+  virtual bool NeedsInit()
+    noexcept override {
+    return needs_init_;
+  }
+
+  virtual void SetInitSuccessful()
+    noexcept override {
+    needs_init_ = true;
+  }
 
   virtual bool PerformAction(
       const string& statement,
-      const vector<string>& parameters) override;
+      const vector<string>& parameters)
+    override;
 
   virtual bool ProcessRows(
       const string& statement,
       const vector<string>& parameters,
-      const function<bool(const Row&)>& processor) override;
-
-  virtual ~SQLiteDDatabase();
-
- private:
-  SQLiteDatabase(sqlite3* const db, bool needs_init)
-      : Database{}
-      , db_{db}
-      , needs_init_{needs_init} {}
+      const function<bool(const Row&)>& processor)
+    override;
 
   // A database access object from SQLite's API.
   sqlite3* db_;
@@ -66,20 +80,22 @@ class SQLiteDatabase final : public Database {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-std::unique_ptr<Database> OpenSQLiteDatabase(const std::string& path) {
+unique_ptr<Database> OpenSQLiteDatabase(
+    const std::string& path) {
   int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
-  // detect whether creation was needed, and init the db if so
-  sqlite3* db;
-  int errcode = sqlite3_open_v2(filename.c_str(), &db, flags, nullptr);
+  // TODO detect whether creation was needed
+  sqlite3* raw_db;
+  auto needs_init = false;
+  int errcode = sqlite3_open_v2(filename.c_str(), &raw_db, flags, nullptr);
   if (errcode != SQLITE_OK) {
-    std::cerr << sqlite3_errmsg(db) << std::endl;  // rm debug prints
+    std::cerr << sqlite3_errmsg(raw_db) << std::endl;  // rm debug prints
     //*
     std::abort();
     /*/
     return nullptr;
     //*/
   }
-  return std::unique_ptr<Database>(new SQLiteDatabase{db, true});
+  return make_unique<Database>(make_unique<SQLiteDatabase>(raw_db, needs_init));
 }
 
 SQLiteDatabase::~SQLiteDatabase() {
@@ -89,12 +105,12 @@ SQLiteDatabase::~SQLiteDatabase() {
   }
 }
 
-bool SQLiteDatabase::PerformAction(
-    const string& statement,
-    const vector<string>& parameters) {
-  std::cerr << "SQLiteDatabase::PerformAction not yet implemented";
-  std::abort();
-  return false;
+bool SQLiteDatabase::NeedsInit() noexcept {
+  return needs_init_;
+}
+
+void SQLiteDatabase::SetInitSuccessful() noexcept {
+  needs_init_ = true;
 }
 
 namespace {
@@ -102,14 +118,16 @@ namespace {
 extern "C" {
 
 // A wrapper to get from SQLite's C callback interface back to C++ land.
-int SQLiteExecuteCallback(
+int SQLiteCallbackWrapper(
     void* fn_void_ptr,
     int num_cols,
     char** col_text,
     char** col_name) {
   auto row = Row{};
   for (int ii = 0; ii < num_cols; ++ii) {
-    row.emplace_back(col_name[ii], col_text[ii]);
+    assert(col_name[ii] != nullptr);
+    assert(col_text[ii] != nullptr);
+    row.emplace_back(string{col_name[ii]}, string{col_text[ii])};
   }
   const auto& fn_ptr = *static_cast<function<bool(const Row&)>*>(fn_void_ptr);
   return fn_ptr(row);
@@ -124,11 +142,11 @@ bool ProcessRowsNoParams(
   auto errmsg = char*{nullptr}:
 
   const auto res = sqlite3_exec(
-    db,
-    statement.c_str(),
-    &SQLiteExecuteCallback,
-    static_cast<void*>(&processor),
-    &errmsg);
+      db,
+      statement.c_str(),
+      &SQLiteCallbackWrapper,
+      static_cast<void*>(&processor),
+      &errmsg);
 
   if (errmsg) {
     std::cerr << errmsg;
@@ -148,9 +166,8 @@ bool ProcessRowsWithParams(
 bool SQLiteDatabase::ProcessRows(
     const string& statement,
     const vector<string>& parameters,
-    const function<bool(const Row&)>& processor);
-  std::cerr << "SQLiteDatabase::ProcessRows not yet implemented";
-  std::abort();
+    const function<bool(const Row&)>& processor) {
+  assert("SQLiteDatabase::ProcessRows not yet implemented", false);
 
   if (parameters.empty()) {
     return ProcessRowsNoParams(statement, processor, db_);
@@ -159,4 +176,11 @@ bool SQLiteDatabase::ProcessRows(
   }
 }
 
+bool SQLiteDatabase::PerformAction(
+    const string& statement,
+    const vector<string>& parameters) {
+  return ProcessRows(statement, parameters, [](const Row&) { return true; });
+}
+
 }  // namespace heropool
+

@@ -17,6 +17,7 @@
 #include "./command.h"
 #include "./database.h"
 #include "./herodata.h"
+#include "./sqlite_database.h"
 
 using std::cin;
 using std::cout;
@@ -59,15 +60,15 @@ void WarnAboutWorkingDirectory(const string& arg0) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
-  Database db("./heropool.db");
+  auto db = OpenSQLiteDatabase("./heropool.db");
   if (argc > 0) {
     WarnAboutWorkingDirectory(argv[0]);
   }
   if (argc > 1) {
     vector<string> commandArgs(argv + 1, argv + argc);
-    ProcessSingleCommand(&db, commandArgs);
+    ProcessSingleCommand(db.get(), commandArgs);
   } else {
-    ProcessCommandsInteractively(&db);
+    ProcessCommandsInteractively(db.get());
   }
   return 0;
 }

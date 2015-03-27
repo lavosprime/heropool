@@ -19,8 +19,10 @@ class Database;
 
 // Connects to a local SQLite database with the given path, creating the file if
 // it does not exist, and returns a smart pointer to the database connection.
-std::unique_ptr<Database> OpenSQLiteDatabase(const std::string& path);
+std::unique_ptr<Database> OpenSQLiteDatabase(
+    const std::string& path);
 
 }  // namespace heropool
 
 #endif  // SQLITE_DATABASE_H_
+

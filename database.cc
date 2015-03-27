@@ -3,16 +3,20 @@
   Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
-  database.cc: Implementations of database operations.
+  database.cc: Implementations of the application's database needs in terms of
+    general database operations.
 
 \******************************************************************************/
 
 #include "./database.h"
+#include "./db_impl.h"
 
 #include <iostream>
 
 using std::string;
 using std::vector;
+
+namespace heropool {
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -39,9 +43,22 @@ const char kInsertSQL[] {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+Database::Database(
+    std::unique_ptr<DBImpl> db);
+    : db_{ std::move(db) } {
+  if (db_->NeedsInit()) {
+    // TODO set up the database
+    db_->SetInitSuccessful();
+  }
+}
 
-bool Database::InsertTuple(const string& player, const string& hero) {
+bool Database::InsertTuple(
+    const string& player_name,
+    const string& hero_name) {
   std::cerr << kInsertSQL;
   auto params = vector<string>{player, hero};
-  return PerformAction(kInsertSQL, params);
+  return db_->PerformAction(kInsertSQL, params);
 }
+
+}  // namespace heropool
+
