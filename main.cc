@@ -34,7 +34,7 @@ bool ProcessSingleCommand(Database* const db,
   if (commandArgs.size() == 0) {
     return true;
   }
-  Command cmd(commandArgs);
+  auto cmd = Command(commandArgs);
   cmd.Execute(db);
   return !cmd.CausesExit();
 }
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     WarnAboutWorkingDirectory(argv[0]);
   }
   if (argc > 1) {
-    vector<string> commandArgs(argv + 1, argv + argc);
+    auto commandArgs = vector<string>(argv + 1, argv + argc);
     ProcessSingleCommand(&db, commandArgs);
   } else {
     ProcessCommandsInteractively(&db);
