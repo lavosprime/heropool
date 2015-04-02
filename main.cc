@@ -25,6 +25,8 @@ using std::endl;
 using std::string;
 using std::vector;
 
+using namespace heropool;
+
 const char workingDirWarning[] =
     "Warning: heropool was not launched from its own directory.";
 

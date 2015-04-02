@@ -12,6 +12,8 @@
 
 #include <string>
 
+namespace heropool {
+
 /**
  * Returns true if the given alias or nickname is known to actually refer to a
  * hero; returns false otherwise.
@@ -24,5 +26,7 @@ bool HeroExistsForAlias(const std::string& alias);
  * HeroExistsForAlias returns true before calling GetHeroByAlias.
  */
 const std::string& GetHeroByAlias(const std::string& alias);
+
+}  // namespace heropool
 
 #endif  // HERODATA_H_

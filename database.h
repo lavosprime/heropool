@@ -12,13 +12,12 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 
 namespace heropool {
 
 class DBImpl;
 
-// Abstracts away the SQL statements and result processing required to use a 
+// Abstracts away the SQL statements and result processing required to use a
 // database. Database provides only the few particular operations required by
 // the rest of the program, implemented in terms of the more general operations
 // provided by DBImpl's internal API.
@@ -36,12 +35,12 @@ class Database final {
   // Records (if not already recorded) that the given player plays the given
   // hero. Returns whether the operation completed successfully.
   bool InsertPlayerHeroPair(
-      const string& player_name,
-      const string& hero_name);
+      const std::string& player_name,
+      const std::string& hero_name);
 
  private:
   // A "pimpl"-style handle to the internal API.
-  unique_ptr<DBImpl> db_;
+  std::unique_ptr<DBImpl> db_;
 };
 
 }  // namespace heropool
