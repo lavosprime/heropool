@@ -48,11 +48,11 @@ class DBImpl {
  private:
   // Returns whether the database needs first-time table setup.
   virtual bool NeedsInit()
-    noexcept = 0;
+  noexcept = 0;
 
   // Ensures that all future calls to NeedsInit will return true.
   virtual void SetInitSuccessful()
-    noexcept = 0;
+  noexcept = 0;
 
   // Performs some database action that does not return rows or whose returned
   // rows do not matter. The action takes the form of a statement that may be

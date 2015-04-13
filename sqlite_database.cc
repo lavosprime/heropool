@@ -48,25 +48,25 @@ class SQLiteDatabase final : public DBImpl {
 
  private:
   bool NeedsInit()
-    noexcept override {
+  noexcept override {
     return needs_init_;
   }
 
   void SetInitSuccessful()
-    noexcept override {
+  noexcept override {
     needs_init_ = true;
   }
 
   bool PerformAction(
       const string& statement,
       const vector<string>& parameters)
-    override;
+  override;
 
   bool ProcessRows(
       const string& statement,
       const vector<string>& parameters,
       const function<bool(const Row&)>& processor)
-    override;
+  override;
 
   // A database access object from SQLite's API.
   sqlite3* db_;
