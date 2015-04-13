@@ -16,6 +16,7 @@
 
 #include "./command.h"
 #include "./database.h"
+#include "./db_impl.h"
 #include "./herodata.h"
 #include "./sqlite_database.h"
 
@@ -25,7 +26,9 @@ using std::endl;
 using std::string;
 using std::vector;
 
-using namespace heropool;
+using heropool::Command;
+using heropool::Database;
+using heropool::OpenSQLiteDatabase;
 
 const char workingDirWarning[] =
     "Warning: heropool was not launched from its own directory.";
