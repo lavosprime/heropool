@@ -16,13 +16,19 @@
 
 #include "./command.h"
 #include "./database.h"
+#include "./db_impl.h"
 #include "./herodata.h"
+#include "./sqlite_database.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
+
+using heropool::Command;
+using heropool::Database;
+using heropool::OpenSQLiteDatabase;
 
 const char workingDirWarning[] =
     "Warning: heropool was not launched from its own directory.";
@@ -59,15 +65,15 @@ void WarnAboutWorkingDirectory(const string& arg0) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
-  Database db("./heropool.db");
+  auto db = OpenSQLiteDatabase("./heropool.db");
   if (argc > 0) {
     WarnAboutWorkingDirectory(argv[0]);
   }
   if (argc > 1) {
     auto commandArgs = vector<string>(argv + 1, argv + argc);
-    ProcessSingleCommand(&db, commandArgs);
+    ProcessSingleCommand(db.get(), commandArgs);
   } else {
-    ProcessCommandsInteractively(&db);
+    ProcessCommandsInteractively(db.get());
   }
   return 0;
 }

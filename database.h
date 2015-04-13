@@ -3,41 +3,47 @@
   Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
-  database.h: A class abstracting a database connection.
+  database.h: A class managing a database connection.
 
 \******************************************************************************/
 
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
+#include <memory>
 #include <string>
 
-extern "C" {
-  #include "sqlite3.h"
-}
+namespace heropool {
 
-// Abstracts away the SQL queries and SQLite API required to use a local
-// database; instead, provides only the few particular operations required by
-// the rest of the program.
+class DBImpl;
+
+// Abstracts away the SQL statements and result processing required to use a
+// database. Database provides only the few particular operations required by
+// the rest of the program, implemented in terms of the more general operations
+// provided by DBImpl's internal API.
 class Database final {
  public:
-  // Connects to a database with the given filename, creating the file if it
-  // does not exist. May fail, which will cause all other operations to fail.
-  explicit Database(const std::string& filename) : db_(OpenDB(filename)) {}
+  // Constructs a Database using the given DBImpl to perform its operations. If
+  // this is the first time the database has been accessed, performs first-time
+  // setup on the database so all of the required tables and such are in place.
+  // Due to access restrictions on DBImpl, you will likely need to use a factory
+  // function for some specific database implementation rather than calling
+  // this constructor directly.
+  explicit Database(
+      std::unique_ptr<DBImpl> db);
+
   // Records (if not already recorded) that the given player plays the given
-  // hero. Returns true if the transaction completed successfully.
-  bool InsertTuple(const std::string& player, const std::string& hero);
-  // Closes the database connection.
-  ~Database();
+  // hero. Returns whether the operation completed successfully.
+  bool InsertPlayerHeroPair(
+      const std::string& player_name,
+      const std::string& hero_name);
+
  private:
-  Database(const Database&) = delete;  // disable copy constructor
-  Database& operator=(const Database&) = delete;  // disable assignment
-  // Returns a database object from SQLite's API connected to a database with
-  // the given filename, creating the file if it does not exist, or nullptr
-  // if opening the database connection failed.
-  static sqlite3* OpenDB(const std::string& filename);
-  // A database access object from SQLite's API. nullptr if constructor failed.
-  sqlite3* db_;
+  // A "pimpl"-style handle to the internal API.
+  std::unique_ptr<DBImpl> db_;
 };
 
+}  // namespace heropool
+
 #endif  // DATABASE_H_
+

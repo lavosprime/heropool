@@ -14,7 +14,9 @@
 #include <string>
 #include <vector>
 
-#include "./database.h"
+namespace heropool {
+
+class Database;
 
 // Handles a single user command based on the arguments provided by the user.
 class Command final {
@@ -35,5 +37,7 @@ class Command final {
   // The arguments to the command.
   std::vector<std::string> args_;
 };
+
+}  // namespace heropool
 
 #endif  // COMMAND_H_

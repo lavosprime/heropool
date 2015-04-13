@@ -15,6 +15,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+namespace heropool {
+
 void Command::Execute(const Database* db) {
   for (auto arg : this->args_) {
     cout << arg << endl;
@@ -24,3 +26,5 @@ void Command::Execute(const Database* db) {
 bool Command::CausesExit(void) {
   return this->args_[0] == "quit";
 }
+
+}  // namespace heropool

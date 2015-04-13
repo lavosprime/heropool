@@ -3,7 +3,8 @@
   Copyright (c) 2014-2015 by Cooper Johnson <lavosprime@gmail.com>
   This program is free software provided under the terms of the MIT License.
 
-  database.cc: Implementations of database operations.
+  database.cc: Implementations of the application's database needs in terms of
+    general database operations.
 
 \******************************************************************************/
 
@@ -11,9 +12,12 @@
 
 #include <iostream>
 
-#include "boost/format.hpp"  // boost::format is like sprintf
+#include "./db_impl.h"
 
 using std::string;
+using std::vector;
+
+namespace heropool {
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -38,38 +42,24 @@ const char kInsertSQL[] {
 //
 //   Function definitions
 //
-// SQLite's API is documented at https://www.sqlite.org/capi3ref.html
-//
 ////////////////////////////////////////////////////////////////////////////////
 
-sqlite3* Database::OpenDB(const string& filename) {
-  int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
-  // detect whether creation was needed, and init the db if so
-  sqlite3* db;
-  int errcode = sqlite3_open_v2(filename.c_str(), &db, flags, nullptr);
-  if (errcode != SQLITE_OK) {
-    std::cerr << sqlite3_errmsg(db) << std::endl;  // rm debug prints
-    //*
-    std::abort();
-    /*/
-    return nullptr;
-    //*/
-  }
-  return db;
-}
-
-Database::~Database() {
-  int errcode = sqlite3_close_v2(this->db_);
-  if (errcode != SQLITE_OK) {
-    std::cerr << sqlite3_errmsg(this->db_) << std::endl;  // rm debug prints
+Database::Database(
+    std::unique_ptr<DBImpl> db)
+    : db_{ std::move(db) } {
+  if (db_->NeedsInit()) {
+    // TODO(lavosprime): set up the database
+    db_->SetInitSuccessful();
   }
 }
 
-bool Database::InsertTuple(const string& player, const string& hero) {
+bool Database::InsertPlayerHeroPair(
+    const string& player_name,
+    const string& hero_name) {
   std::cerr << kInsertSQL;
-  auto query = boost::format(kInsertSQL) % player % hero;
-  const char *cquery = query.str().c_str();
-  std::cerr << cquery <<std::endl;  // remove debug prints
-  // send the query to the database engine
-  return true;
+  auto params = vector<string>{player_name, hero_name};
+  return db_->PerformAction(kInsertSQL, params);
 }
+
+}  // namespace heropool
+

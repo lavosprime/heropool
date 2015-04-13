@@ -26,6 +26,8 @@ inline const unordered_map<string, string>& HeroesByAlias(void) {
 
 }  // namespace
 
+namespace heropool {
+
 bool HeroExistsForAlias(const string& alias) {
   return HeroesByAlias().count(alias) == 1;
 }
@@ -34,3 +36,5 @@ const string& GetHeroByAlias(const string& alias) {
   assert(HeroExistsForAlias(alias));
   return HeroesByAlias().at(alias);
 }
+
+}  // namespace heropool
