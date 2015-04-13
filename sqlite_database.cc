@@ -34,34 +34,35 @@ namespace heropool {
 // A version of DBImpl for using SQLite local databases.
 class SQLiteDatabase final : public DBImpl {
  public:
-  friend unique_ptr<Database> OpenSQLiteDatabase(const string& path);
-
- private:
   SQLiteDatabase(
       sqlite3* const db,
       bool needs_init)
-      : Database{}
+      : DBImpl{}
       , db_{db}
       , needs_init_{needs_init} {}
 
   virtual ~SQLiteDatabase();
 
-  virtual bool NeedsInit()
+  SQLiteDatabase(const SQLiteDatabase& other) = delete;
+  SQLiteDatabase& operator=(const SQLiteDatabase& rhs) = delete;
+
+ private:
+  bool NeedsInit()
     noexcept override {
     return needs_init_;
   }
 
-  virtual void SetInitSuccessful()
+  void SetInitSuccessful()
     noexcept override {
     needs_init_ = true;
   }
 
-  virtual bool PerformAction(
+  bool PerformAction(
       const string& statement,
       const vector<string>& parameters)
     override;
 
-  virtual bool ProcessRows(
+  bool ProcessRows(
       const string& statement,
       const vector<string>& parameters,
       const function<bool(const Row&)>& processor)
@@ -82,6 +83,22 @@ class SQLiteDatabase final : public DBImpl {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+namespace {  // pointer helpers
+  // TODO(lavosprime): move to utilities library?
+
+  // Returns a null pointer of the given type.
+  template <typename Ptr>
+  Ptr null() {
+    return static_cast<Ptr>(nullptr);
+  }
+
+  // Returns an untyped pointer to the same object as the given pointer.
+  template <typename T>
+  void* void_cast(T* ptr) {
+    return const_cast<void*>(reinterpret_cast<const void*>(ptr));
+  }
+}  // namespace
+
 const auto kOpenExisting = SQLITE_OPEN_READWRITE;
 const auto kOpenCreate = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 
@@ -89,11 +106,11 @@ unique_ptr<Database> OpenSQLiteDatabase(
     const std::string& path) {
   const auto needs_init = !boost::filesystem::exists(path);
   const auto open_flags = needs_init ? kOpenCreate : kOpenExisting;
-  auto raw_db = sqlite3*{nullptr};
+  auto raw_db = null<sqlite3*>();
   auto errcode = sqlite3_open_v2(path.c_str(), &raw_db, open_flags, nullptr);
   if (errcode != SQLITE_OK) {
     while (raw_db != nullptr) {
-      if (sqlite_close(raw_db) == SQLITE_OK) {
+      if (sqlite3_close(raw_db) == SQLITE_OK) {
         raw_db = nullptr;
       }
     }
@@ -110,15 +127,7 @@ SQLiteDatabase::~SQLiteDatabase() {
   }
 }
 
-bool SQLiteDatabase::NeedsInit() noexcept {
-  return needs_init_;
-}
-
-void SQLiteDatabase::SetInitSuccessful() noexcept {
-  needs_init_ = true;
-}
-
-namespace {  // helpers
+namespace {  // sqlite helpers
 
 extern "C" {  // this needs to be callable from C!
 
@@ -132,7 +141,7 @@ int SQLiteCallbackWrapper(
   for (int ii = 0; ii < num_cols; ++ii) {
     assert(col_name[ii] != nullptr);
     assert(col_text[ii] != nullptr);
-    row.emplace_back(string{col_name[ii]}, string{col_text[ii])};
+    row.emplace_back(string{col_name[ii]}, string{col_text[ii]});
   }
   const auto& fn_ptr = *static_cast<function<bool(const Row&)>*>(fn_void_ptr);
   return fn_ptr(row);
@@ -144,19 +153,20 @@ inline bool ProcessRowsNoParams(
     const string& statement,
     const function<bool(const Row&)> processor,
     sqlite3* const db) {
-  auto errmsg = char*{nullptr}:
+  auto errmsg = null<char*>();
 
   const auto res = sqlite3_exec(
       db,
       statement.c_str(),
       &SQLiteCallbackWrapper,
-      static_cast<void*>(&processor),
+      void_cast(&processor),
       &errmsg);
 
   if (errmsg) {
     std::cerr << errmsg;
-    sqlite_free(errmsg);
+    sqlite3_free(errmsg);
   }
+  return res;
 }
 
 inline bool ProcessRowsWithParams(
@@ -164,6 +174,7 @@ inline bool ProcessRowsWithParams(
     const vector<string>& parameters,
     const function<bool(const Row&)> processor,
     sqlite3* const db) {
+  return true;
 }
 
 }  // namespace
@@ -172,12 +183,12 @@ bool SQLiteDatabase::ProcessRows(
     const string& statement,
     const vector<string>& parameters,
     const function<bool(const Row&)>& processor) {
-  assert(("SQLiteDatabase::ProcessRows not yet implemented", false));
+  assert("SQLiteDatabase::ProcessRows not yet implemented" && false);
 
   if (parameters.empty()) {
     return ProcessRowsNoParams(statement, processor, db_);
   } else {
-    return ProcessRowsWithParams(statement, params, processor, db_);
+    return ProcessRowsWithParams(statement, parameters, processor, db_);
   }
 }
 
