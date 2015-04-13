@@ -9,9 +9,10 @@
 \******************************************************************************/
 
 #include "./database.h"
-#include "./db_impl.h"
 
 #include <iostream>
+
+#include "./db_impl.h"
 
 using std::string;
 using std::vector;
@@ -44,19 +45,19 @@ const char kInsertSQL[] {
 ////////////////////////////////////////////////////////////////////////////////
 
 Database::Database(
-    std::unique_ptr<DBImpl> db);
+    std::unique_ptr<DBImpl> db)
     : db_{ std::move(db) } {
   if (db_->NeedsInit()) {
-    // TODO set up the database
+    // TODO(lavosprime): set up the database
     db_->SetInitSuccessful();
   }
 }
 
-bool Database::InsertTuple(
+bool Database::InsertPlayerHeroPair(
     const string& player_name,
     const string& hero_name) {
   std::cerr << kInsertSQL;
-  auto params = vector<string>{player, hero};
+  auto params = vector<string>{player_name, hero_name};
   return db_->PerformAction(kInsertSQL, params);
 }
 

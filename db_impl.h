@@ -37,8 +37,8 @@ class DBImpl {
   virtual ~DBImpl() {};
 
   // Copying is disabled to prevent slicing and simplify resource ownership.
-  DBImpl(const DBImpl&) final = delete;
-  DBImpl& operator=(const DBImpl&) final = delete;
+  DBImpl(const DBImpl&) = delete;
+  DBImpl& operator=(const DBImpl&) = delete;
 
  protected:
   // The constructor opens the database connection. Only derived classes may
